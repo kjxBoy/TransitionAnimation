@@ -12,6 +12,13 @@ class ModelViewController: UIViewController {
     
     var newDelegate: UIViewControllerTransitioningDelegate? = JXCoolTransitioningDelegate()
     
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        view.backgroundColor = .orange
+        
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()

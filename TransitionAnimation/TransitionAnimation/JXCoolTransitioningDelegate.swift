@@ -13,7 +13,7 @@ class JXCoolTransitioningDelegate: NSObject  {
     
 }
 
-//MARK: delegate - UIViewControllerAnimatedTransitioning
+//MARK: delegate - UIViewControllerAnimatedTransitioning(动画代理)
 extension JXCoolTransitioningDelegate : UIViewControllerAnimatedTransitioning{
     
     //转场时间

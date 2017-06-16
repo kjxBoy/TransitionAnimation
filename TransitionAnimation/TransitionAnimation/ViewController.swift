@@ -9,10 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let modelVc = SecondViewController()
+        let modelVc = ModelViewController()
         
         present(modelVc, animated: true)
     }

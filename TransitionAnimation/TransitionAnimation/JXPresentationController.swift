@@ -45,6 +45,7 @@ class JXPresentationController: UIPresentationController {
     //MARK: - 改变了ContainerView里面的subView的frame , 但是直接从控制器vc.View的frame没有改变
     //要调用方法"JXCoolTransitioningDelegate里面的transitionContext.finalFrame(for: animateVc!)"来获得相应的frame
     //自定义展现视图的frame
+    
     override var frameOfPresentedViewInContainerView : CGRect {
         
         let containerViewRect = self.containerView?.bounds
@@ -53,9 +54,6 @@ class JXPresentationController: UIPresentationController {
         let x = (containerViewRect!.width - newRect.width) * 0.5
         let y = 56.0;
         newRect.origin = CGPoint(x: x, y: CGFloat(y))
-        
-        
-        
         
         return newRect
     }
@@ -71,8 +69,6 @@ class JXPresentationController: UIPresentationController {
         dummyingView.isHidden = true
     }
     
-    
- 
     
     func tap(){
         presentingViewController.dismiss(animated: true, completion: nil)
