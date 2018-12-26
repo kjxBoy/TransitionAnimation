@@ -24,9 +24,14 @@
 
 - (IBAction)modelNewViewController:(UIButton *)sender {
     
-    BJAlertController *alertViewController = [BJAlertController alertControllerWithStyle:BJAlertControllerAddFavourateCar];
+    BJAlertController *alertViewController = [BJAlertController alertControllerWithStyle:BJAlertControllerAddFavourateCar withSuccessBlcok:^(UIButton *button) {
+        NSLog(@"sure");
+        [self dismissViewControllerAnimated:true completion:nil];
+    } cancelBlock:^(UIButton *button) {
+        NSLog(@"cancel");
+        [self dismissViewControllerAnimated:true completion:nil];
+    }];
     [self presentViewController:alertViewController animated:YES completion:nil];
-
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

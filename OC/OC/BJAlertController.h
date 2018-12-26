@@ -15,6 +15,8 @@ typedef NS_ENUM(NSInteger, BJAlertControllerStyle) {
     
 };
 
+typedef void(^Block)(UIButton *button);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BJAlertController : UIViewController
@@ -22,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 //UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"12345678" preferredStyle:UIAlertControllerStyleAlert];
 
 
-+ (instancetype)alertControllerWithStyle:(BJAlertControllerStyle)style;
++ (instancetype)alertControllerWithStyle:(BJAlertControllerStyle)style withSuccessBlcok:(Block)successBlock cancelBlock:(Block)cancelBlock ;
 
 @end
 
