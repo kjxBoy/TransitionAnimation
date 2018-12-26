@@ -16,7 +16,6 @@ class ModelViewController: UIViewController {
         
         super.viewDidLoad()
         view.backgroundColor = .orange
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

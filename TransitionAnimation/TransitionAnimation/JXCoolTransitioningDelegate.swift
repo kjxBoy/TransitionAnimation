@@ -18,11 +18,8 @@ extension JXCoolTransitioningDelegate : UIViewControllerAnimatedTransitioning{
     
     //转场时间
     internal func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval{
-        
         return 0.25
     }
-    
-    
     
     /// 转场动画（主动提供转场动画，一旦实现了这个方法，原有的转场动画失效）
     ///
