@@ -185,6 +185,7 @@
 #pragma mark - private
 
 - (void)commonInitWithTitle:(NSString *)title message:(NSString *)message {
+    // 使用custom不会隐藏fromview
     self.modalPresentationStyle = UIModalPresentationCustom;
     _actionTitle = title;
     _actionMessage = message;
