@@ -16,6 +16,7 @@
 		D283098F21D3127800E29912 /* BJAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D283098E21D3127800E29912 /* BJAlertController.m */; };
 		D283099221D31C4500E29912 /* BJToolTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D283099121D31C4500E29912 /* BJToolTransitioningDelegate.m */; };
 		D283099521D33E3200E29912 /* BJAlertPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D283099421D33E3200E29912 /* BJAlertPresentationController.m */; };
+		D28309A221D3895100E29912 /* BJAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D28309A121D3895100E29912 /* BJAlertAction.m */; };
 		F82A3A5A4BDCD01816FB2141 /* libPods-OC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C617677313B308E330C8EB7 /* libPods-OC.a */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,8 @@
 		D283099121D31C4500E29912 /* BJToolTransitioningDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BJToolTransitioningDelegate.m; sourceTree = "<group>"; };
 		D283099321D33E3200E29912 /* BJAlertPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BJAlertPresentationController.h; sourceTree = "<group>"; };
 		D283099421D33E3200E29912 /* BJAlertPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BJAlertPresentationController.m; sourceTree = "<group>"; };
+		D28309A021D3895100E29912 /* BJAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BJAlertAction.h; sourceTree = "<group>"; };
+		D28309A121D3895100E29912 /* BJAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BJAlertAction.m; sourceTree = "<group>"; };
 		F34BE9C01AE86C3811C133C1 /* Pods-OC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OC.release.xcconfig"; path = "Pods/Target Support Files/Pods-OC/Pods-OC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +100,8 @@
 				D283097B21D3119100E29912 /* ViewController.m */,
 				D283098D21D3127800E29912 /* BJAlertController.h */,
 				D283098E21D3127800E29912 /* BJAlertController.m */,
+				D28309A021D3895100E29912 /* BJAlertAction.h */,
+				D28309A121D3895100E29912 /* BJAlertAction.m */,
 				D283099021D31C4500E29912 /* BJToolTransitioningDelegate.h */,
 				D283099121D31C4500E29912 /* BJToolTransitioningDelegate.m */,
 				D283099321D33E3200E29912 /* BJAlertPresentationController.h */,
@@ -209,6 +214,7 @@
 				D283097C21D3119100E29912 /* ViewController.m in Sources */,
 				D283098721D3119200E29912 /* main.m in Sources */,
 				D283099521D33E3200E29912 /* BJAlertPresentationController.m in Sources */,
+				D28309A221D3895100E29912 /* BJAlertAction.m in Sources */,
 				D283098F21D3127800E29912 /* BJAlertController.m in Sources */,
 				D283099221D31C4500E29912 /* BJToolTransitioningDelegate.m in Sources */,
 				D283097921D3119100E29912 /* AppDelegate.m in Sources */,

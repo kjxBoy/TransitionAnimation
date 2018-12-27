@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "BJAlertController.h"
+#import "BJAlertAction.h"
 
 @interface ViewController ()
 
@@ -24,14 +25,21 @@
 
 - (IBAction)modelNewViewController:(UIButton *)sender {
     
-    BJAlertController *alertViewController = [BJAlertController alertControllerWithStyle:BJAlertControllerAddFavourateCar withSuccessBlcok:^(UIButton *button) {
+
+    
+    BJAlertController *alertViewController = [BJAlertController alertControllerWithTitle:@"标题" message:@"这里是一段描述，支持换行，可随意输入" withAlertStyle:BJAlertControllerAddFavourateCar];
+    
+    BJAlertAction *sureAction = [BJAlertAction actionWithTitle:@"确认" style:BJAlertActionStyleDefault handler:^(BJAlertAction * _Nonnull action) {
         NSLog(@"sure");
-        [self dismissViewControllerAnimated:true completion:nil];
-    } cancelBlock:^(UIButton *button) {
-        NSLog(@"cancel");
-        [self dismissViewControllerAnimated:true completion:nil];
     }];
+    BJAlertAction *cancelAction = [BJAlertAction actionWithTitle:@"取消" style:BJAlertActionStyleCancel handler:nil];
+    
+    [alertViewController addAction:sureAction];
+    [alertViewController addAction:cancelAction];
+    
     [self presentViewController:alertViewController animated:YES completion:nil];
+    
+    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -40,9 +48,14 @@
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
     
-    [alert addAction:cancelAction];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"123" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
     
-    [self presentViewController:alert animated:true completion:nil];
+    [alert addAction:cancelAction];
+    [alert addAction:sureAction];
+    
+    [self presentViewController:alert animated:false completion:nil];
 }
 
 @end

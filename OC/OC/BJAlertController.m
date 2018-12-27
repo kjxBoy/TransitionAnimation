@@ -10,7 +10,8 @@
 #import "BJToolTransitioningDelegate.h"
 #import "Masonry.h"
 
-typedef void(^Block)(UIButton *button);
+
+
 
 @interface BJAlertController ()
 
@@ -18,8 +19,17 @@ typedef void(^Block)(UIButton *button);
 @property (nonatomic, strong)BJToolTransitioningDelegate* delegate;
 @property (nonatomic, assign)BJAlertControllerStyle style;
 
-@property (nonatomic, copy)Block successBlock;
-@property (nonatomic, copy)Block cancelBlock;
+@property (nonatomic, copy)AlertActionBlock successBlock;
+@property (nonatomic, copy)AlertActionBlock cancelBlock;
+
+@property (nonatomic, weak)UIButton *leftButton;
+@property (nonatomic, weak)UIButton *rightButton;
+
+@property (nonatomic, weak) BJAlertAction *leftAction;
+@property (nonatomic, weak) BJAlertAction *rightAction;
+
+@property (nonatomic, copy)NSString *actionTitle;
+@property (nonatomic, copy)NSString *actionMessage;
 
 
 @end
@@ -36,104 +46,168 @@ typedef void(^Block)(UIButton *button);
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
     if (_style == BJAlertControllerAddFavourateCar) {
         [self initFavourateCarUI];
     }
-    
 }
 
 - (void)initFavourateCarUI {
-    if (_style == BJAlertControllerAddFavourateCar) {
         
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightRegular];
-        titleLabel.text = @"提示";
+        titleLabel.text = _actionTitle;
         titleLabel.textColor = [UIColor blackColor];
         [self.view addSubview:titleLabel];
+    
+        UILabel *messageLabel = [[UILabel alloc] init];
+        messageLabel.text = _actionMessage;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont systemFontOfSize:14];
+        messageLabel.textColor = [UIColor blackColor];
+        messageLabel.numberOfLines = 0;
+        [messageLabel setHighlighted:YES];
+        [self.view addSubview:messageLabel];
+    
+        if ([self messageIsEmpty]) {
+            [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(@54);
+                make.centerX.equalTo(self.view);
+            }];
+            return;
+        }
+    
+        [messageLabel setHighlighted:NO];
+    
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(@21);
             make.centerX.equalTo(self.view);
         }];
-        
-        
-        UILabel *messageLabel = [[UILabel alloc] init];
-        messageLabel.text = @"车辆删除后您的认证信息将彻底被删除，确定要删除吗？";
-        messageLabel.textAlignment = NSTextAlignmentCenter;
-        messageLabel.font = [UIFont systemFontOfSize:14];
-        messageLabel.textColor = [UIColor blackColor];
-        messageLabel.numberOfLines = 2;
-        [self.view addSubview:messageLabel];
+    
         [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(10);
             make.left.equalTo(self.view).offset(33);
             make.right.equalTo(self.view).offset(-33);
-            make.height.equalTo(@40);
         }];
-        
-        UIButton *cancelButton = [[UIButton alloc] init];
-        [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [cancelButton setBackgroundColor:[UIColor lightGrayColor]];
-        [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        cancelButton.clipsToBounds = YES;
-        cancelButton.layer.cornerRadius = 22;
-        [self.view addSubview:cancelButton];
-        [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(@120);
-            make.height.equalTo(@44);
-            make.left.equalTo(self.view).offset(20);
-            make.bottom.equalTo(self.view).offset(-20);
-        }];
-        
-        UIButton *sureButton = [[UIButton alloc] init];
-        [sureButton setTitle:@"确定" forState:UIControlStateNormal];
-        [sureButton setBackgroundColor:[UIColor blueColor]];
-        sureButton.clipsToBounds = YES;
-        sureButton.layer.cornerRadius = 22;
-        [self.view addSubview:sureButton];
-        [sureButton addTarget:self action:@selector(sureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [sureButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(@120);
-            make.height.equalTo(@44);
-            make.right.equalTo(self.view).offset(-20);
-            make.bottom.equalTo(cancelButton);
-        }];
-        
-        
-    }
 }
 
 - (void)sureButtonClick:(UIButton *)button {
     if (self.successBlock) {
-        self.successBlock(button);
+        self.successBlock(_leftAction);
     }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)cancelButtonClick:(UIButton *)button {
     if (self.cancelBlock) {
-        self.cancelBlock(button);
+        self.cancelBlock(_rightAction);
     }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-+ (instancetype)alertControllerWithStyle:(BJAlertControllerStyle)style withSuccessBlcok:(Block)successBlock cancelBlock:(Block)cancelBlock {
+#pragma mark - public
+
++ (instancetype)alertControllerWithTitle:(nullable NSString *)title message:(nullable NSString *)message withAlertStyle:(BJAlertControllerStyle)style {
     BJAlertController *alertController = [[BJAlertController alloc] init];
-    alertController.successBlock = successBlock;
-    alertController.cancelBlock = cancelBlock;
     alertController.style = style;
-    [alertController commonInit];
+    [alertController commonInitWithTitle:(NSString *)title message:(NSString *)message];
     return alertController;
 }
 
-- (void)commonInit {
+- (void)addAction:(BJAlertAction *)action {
+    
+    // 最多添加两个按钮
+    if (_leftButton && _rightButton ) return;
+    
+    // 最多添加一个取消或者确认按钮
+    if (self.cancelBlock && action.style == BJAlertActionStyleCancel) return;
+    if (self.successBlock && action.style == BJAlertActionStyleDefault) return;
+    
+    
+    UIButton *sureButton = [[UIButton alloc] init];
+    [sureButton setTitle:action.title forState:UIControlStateNormal];
+    
+    switch (action.style) {
+        case BJAlertActionStyleDefault: {
+            [sureButton setBackgroundColor:[UIColor blueColor]];
+            [sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            self.successBlock = action.actionBlock;
+            [sureButton addTarget:self action:@selector(sureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+        }
+        case BJAlertActionStyleCancel: {
+            [sureButton setBackgroundColor:[UIColor lightGrayColor]];
+            [sureButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            self.cancelBlock = action.actionBlock;
+            [sureButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            
+            break;
+        }
+        default:
+            break;
+    }
+    
+    sureButton.clipsToBounds = YES;
+    sureButton.layer.cornerRadius = 22;
+    [self.view addSubview:sureButton];
+   
+    //如果只有一个按钮，居中
+    if (!_leftButton) {
+        _leftButton = sureButton;
+        _leftAction = action;
+        [_leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@120);
+            make.height.equalTo(@44);
+            make.centerX.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-20);
+        }];
+        return;
+    }
+    // 最多两个按钮
+    _rightButton = sureButton;
+    _rightAction = action;
+    [_leftButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@120);
+        make.height.equalTo(@44);
+        make.left.equalTo(self.view).offset(20);
+        make.bottom.equalTo(self.view).offset(-20);
+    }];
+    
+    [_rightButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@120);
+        make.height.equalTo(@44);
+        make.right.equalTo(self.view).offset(-20);
+        make.bottom.equalTo(self.view).offset(-20);
+    }];
+    
+}
+
+
+#pragma mark - private
+
+- (void)commonInitWithTitle:(NSString *)title message:(NSString *)message {
     self.modalPresentationStyle = UIModalPresentationCustom;
+    _actionTitle = title;
+    _actionMessage = message;
+    //  计算字体高度
+    NSStringDrawingOptions options = NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+    CGFloat titleHeight = [message boundingRectWithSize:CGSizeMake(229, MAXFLOAT) options:options attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size.height;
+    
+    CGFloat height = 137 + titleHeight;
+    
+    if ([self messageIsEmpty] ) {
+        height = 177;
+    }
+
     //transition 转场，转成代理
     if (_style == BJAlertControllerAddFavourateCar) {
-        self.delegate.alertSize = CGSizeMake(295, 177);
+        self.delegate.alertSize = CGSizeMake(295, height);
     }
     self.transitioningDelegate = self.delegate;
 }
 
+- (BOOL)messageIsEmpty {
+    return !_actionMessage || [_actionMessage isEqualToString:@""];
+}
 
 - (void)dealloc {
     NSLog(@"%s",__func__);

@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BJAlertAction.h"
 
 
+
+/**
+ 扩展属性，后续有新的样式可通过style进行判断
+ */
 typedef NS_ENUM(NSInteger, BJAlertControllerStyle) {
     // 我的 - 添加爱车
     BJAlertControllerAddFavourateCar = 10
@@ -21,10 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BJAlertController : UIViewController
 
-//UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"12345678" preferredStyle:UIAlertControllerStyleAlert];
++ (instancetype)alertControllerWithTitle:(nullable NSString *)title message:(nullable NSString *)message withAlertStyle:(BJAlertControllerStyle)style;
 
+- (void)addAction:(BJAlertAction *)action;
 
-+ (instancetype)alertControllerWithStyle:(BJAlertControllerStyle)style withSuccessBlcok:(Block)successBlock cancelBlock:(Block)cancelBlock ;
 
 @end
 
