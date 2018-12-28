@@ -24,13 +24,15 @@
 }
 
 - (IBAction)modelNewViewController:(UIButton *)sender {
-    
-
-    
-    BJAlertController *alertViewController = [BJAlertController alertControllerWithTitle:@"标题" message:@"这里是一段描述，支持换行，可随意输入" withAlertStyle:BJAlertControllerAddFavourateCar];
+    BJAlertController *alertViewController = [BJAlertController alertControllerWithTitle:@"标题" message:@"这里是一段描述，支持换行，可随意输入" withAlertStyle:BJAlertControllerStyleAlert];
     
     BJAlertAction *sureAction = [BJAlertAction actionWithTitle:@"确认" style:BJAlertActionStyleDefault handler:^(BJAlertAction * _Nonnull action) {
-        NSLog(@"sure");
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            sleep(2);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"123456");
+            });
+        });
     }];
     BJAlertAction *cancelAction = [BJAlertAction actionWithTitle:@"取消" style:BJAlertActionStyleCancel handler:nil];
     
@@ -38,8 +40,6 @@
     [alertViewController addAction:cancelAction];
     
     [self presentViewController:alertViewController animated:YES completion:nil];
-    
-    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

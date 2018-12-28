@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    if (_style == BJAlertControllerAddFavourateCar) {
+    if (_style == BJAlertControllerStyleAlert) {
         [self initFavourateCarUI];
     }
 }
@@ -200,7 +200,7 @@
     }
 
     //transition 转场，转成代理
-    if (_style == BJAlertControllerAddFavourateCar) {
+    if (_style == BJAlertControllerStyleAlert) {
         self.delegate.alertSize = CGSizeMake(295, height);
     }
     self.transitioningDelegate = self.delegate;

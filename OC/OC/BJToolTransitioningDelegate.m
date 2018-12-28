@@ -47,7 +47,6 @@
         damping = 0.75;
     }
     CGAffineTransform transformBig = CGAffineTransformMakeScale(1.1, 1.1);
-    CGAffineTransform transformSmall = CGAffineTransformMakeScale(0.5, 0.5);
     
     animteView.transform = self.isPop ? transformBig : CGAffineTransformIdentity;
     
@@ -57,7 +56,7 @@
           initialSpringVelocity:5.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         animteView.transform = self.isPop ? CGAffineTransformIdentity: transformSmall;
+                         animteView.transform = CGAffineTransformIdentity;
                          if (!self.isPop)
                              animteView.alpha = 0.02;
                      } completion:^(BOOL finished) {

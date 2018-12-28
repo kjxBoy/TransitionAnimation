@@ -16,7 +16,7 @@
  */
 typedef NS_ENUM(NSInteger, BJAlertControllerStyle) {
     // 我的 - 添加爱车
-    BJAlertControllerAddFavourateCar = 10
+    BJAlertControllerStyleAlert = 1
     
 };
 
